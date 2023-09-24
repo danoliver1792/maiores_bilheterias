@@ -1,4 +1,5 @@
 import requests
+import mysql.connector
 from bs4 import BeautifulSoup
 
 url = 'https://pt.wikipedia.org/wiki/Lista_de_filmes_de_maior_bilheteria'
