@@ -13,13 +13,43 @@ if response.status_code == 200:
 
     for row in rows:
         cells = row.find_all('td')
-        movie = cells[2].text
-        box_office = cells[4].text
+        movie = cells[2].text.strip()
+        box_office = cells[4].text.strip()
 
         data.append({'Movie': movie, 'Box Office': box_office})
 
-    for item in data:
-        print(f"Movie: {item['Movie']}, Box Office: {item['Box Office']}")
+    host = 'localhost'
+    user = 'root'
+    password = '1234'
+    database = 'movies'
+
+    try:
+        conn = mysql.connector.connect(
+            host=host,
+            user=user,
+            password=password,
+            database=database
+        )
+
+        cursor = conn.cursor()
+
+        for item in data:
+            movie = item['Movie']
+            box_office = item['Box Office']
+
+            insert_query = "INSERT INTO filmes (titulo, bilheteria) VALUES (%s, %s)"
+
+            cursor.execute(insert_query, (movie, box_office))
+
+        conn.commit()
+
+    except mysql.connector.Error as error:
+        print(f"Error: {error}")
+
+    finally:
+        if conn.is_connected():
+            cursor.close()
+            conn.close()
 
 else:
     print('Results not found')
