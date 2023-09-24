@@ -7,3 +7,6 @@ CREATE TABLE filmes (
 	titulo VARCHAR(255) NOT NULL,
 	bilheteria INT NOT NULL
 );
+
+-- após o erro que tive no terminal
+ALTER TABLE filmes MODIFY bilheteria DECIMAL(20, 10);

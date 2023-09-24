@@ -16,7 +16,7 @@ if response.status_code == 200:
     for row in rows:
         cells = row.find_all('td')
         movie = cells[2].text.strip()
-        box_office = cells[4].text.strip()
+        box_office = cells[4].text.replace(" ", "")
 
         data.append({'Movie': movie, 'Box Office': box_office})
 
@@ -46,6 +46,8 @@ if response.status_code == 200:
             cursor.execute(insert_query, (movie, box_office))
 
         conn.commit()
+
+        print("Data entered successfully")
 
     except mysql.connector.Error as error:
         print(f"Error: {error}")
