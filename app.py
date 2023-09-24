@@ -2,9 +2,11 @@ import requests
 import mysql.connector
 from bs4 import BeautifulSoup
 
+# fazendo a solicitação HTTP
 url = 'https://pt.wikipedia.org/wiki/Lista_de_filmes_de_maior_bilheteria'
 response = requests.get(url)
 
+# verificando se há resposta na página e percorrendo a tabela coletando as informações
 if response.status_code == 200:
     soup = BeautifulSoup(response.text, 'html.parser')
     table = soup.find('table')
@@ -18,6 +20,7 @@ if response.status_code == 200:
 
         data.append({'Movie': movie, 'Box Office': box_office})
 
+    # configurando a conexão com o MySQL
     host = 'localhost'
     user = 'root'
     password = '1234'
@@ -33,6 +36,7 @@ if response.status_code == 200:
 
         cursor = conn.cursor()
 
+        # inserindo os dados no banco
         for item in data:
             movie = item['Movie']
             box_office = item['Box Office']
@@ -47,6 +51,7 @@ if response.status_code == 200:
         print(f"Error: {error}")
 
     finally:
+        # fechando a conexão
         if conn.is_connected():
             cursor.close()
             conn.close()
