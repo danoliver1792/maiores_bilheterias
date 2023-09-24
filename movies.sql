@@ -9,4 +9,4 @@ CREATE TABLE filmes (
 );
 
 -- após o erro que tive no terminal
-ALTER TABLE filmes MODIFY bilheteria DECIMAL(20, 10);
+ALTER TABLE filmes MODIFY bilheteria DECIMAL(20, 0);
